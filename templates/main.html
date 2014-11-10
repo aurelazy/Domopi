@@ -1,0 +1,108 @@
+{% extends "bootstrap/base.html" %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang('fr') }}
+{% endblock %}
+
+
+<!DOCTYPE html>
+	<head>
+		{% block head %}
+		{{ super() }}
+		<link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico') }}"
+		type="image/x-icon">
+		<link rel="icon" href="{{ url_for('static', filename = 'favicon.ico') }}"
+		type="image/x-icon">
+		
+		<title>{{ title }}</title>
+
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="{{
+		url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+
+		<script>
+		function updateTemp() {
+			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+			$.ajax({
+				url : $SCRIPT_ROOT + "/_liveTemp",
+				success : function(result){
+					$('#indoorTempDiv').html(result);
+				}
+			})
+		};
+		$(document).ready(function() {
+			updateTemp();
+			window.setInterval(function(){
+			updateTemp()
+		}, 30000);
+		$.ajaxSetup({ cache: false });
+		});
+		</script>
+
+		<script>
+		function updateDate() {
+			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+			$.ajax({
+				url : $SCRIPT_ROOT + "/_liveDate",
+				success : function(result){
+					$('#localeDateDiv').html(result);
+				}
+			})
+		};
+		$(document).ready(function() {
+			updateDate();
+			window.setInterval(function(){
+			updateDate()
+		}, 60000);
+		$.ajaxSetup({ cache: false });
+		});
+		</script>
+
+		{% endblock %}
+
+	</head>
+
+	<body onload="readTemp();">
+		{% block navbar %}
+		<div class ="navbar navbar-inverse" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle"
+					data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Maison</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/">Lumieres</a></li>
+						<li><a href="/weather">Météo</a></li>
+						<li><a href="/thermostat">Thermostat</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/configuration">Configuration</a></li>
+						<li><a id="localeDateDiv"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endblock %}
+
+		
+		{% block content %}
+		<div class="container" onload="readTemp();">
+			<p id="currentTemp" align="right">Il fait actuellement <span id="indoorTempDiv"></span> °C dans le salon</p>
+			{% block page_content %}{% endblock %}
+		</div>
+
+	
+		{% endblock %}
+		
+	</body>
+</html>

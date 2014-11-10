@@ -1,0 +1,36 @@
+Flask==0.10.1
+Flask-Bootstrap==3.2.0.2
+Flask-Moment==0.4.0
+Flask-SQLAlchemy==2.0
+Flask-Script==2.0.5
+Flask-WTF==0.10.2
+Jinja2==2.7.3
+MarkupSafe==0.23
+Pygments==1.5
+RPi.GPIO==0.5.5
+SQLAlchemy==0.9.7
+WTForms==2.0.1
+Werkzeug==0.9.6
+arduino-python==0.2
+argparse==1.2.1
+bpython==0.11
+chardet==2.0.1
+## FIXME: could not find svn URL in dependency_links for this package:
+distribute==0.6.24dev-r0
+## FIXME: could not find svn URL in dependency_links for this package:
+flup==1.0.3.dev-20110405
+itsdangerous==0.24
+mercurial==2.2.2
+nanpy==0.9
+numpy==1.6.2
+picamera==1.5
+pifacecommon==4.0.0
+pifacedigitalio==3.0.4
+pyFirmata==0.9.5
+pygame==1.9.1release
+pyserial==2.7
+python-lirc==1.2.1
+pywapi==0.3.8
+smbus==1.1
+virtualenv==1.7.1.2
+wsgiref==0.1.2

@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+
+{% block title %}Maison - Meteo{% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success" role="alert">
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+<!--    <div class="row">
+    <div class="col-md-3" style="border-right: 1px solid black; background-color: #d6d6d6;">
+-->
+    {{ weatherString|safe }}
+
+</div>
+{% endblock %}

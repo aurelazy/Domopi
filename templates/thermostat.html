@@ -1,0 +1,111 @@
+{% extends "main.html" %}
+
+{% block title %}Maison - Thermostat{% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<div class="row">
+	<div class="col-md-6">
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="alert alert-success" role="alert">
+			<ul class=flashes>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+			</div>
+		{% endif %}
+	{% endwith %}
+
+
+	<form action="/thermostat" method="POST">
+		<dl>
+			<dt>Entrez la temperature souhaitee:
+			<dd><input type="text" id="target" name="target" value={{ targetTemp }}>
+
+			<input type="submit" id="goButton" class="btn btn-primary" value="OK">
+
+			<dt>Temperature actuelle souhaitee:
+			<dd><p id="targetTemp">{{ targetTemp }}&deg;</p>
+		</dl>
+	</form>
+	</div> <!-- fin col-md-6 -->
+	
+	<div class="col-md-6">
+	{% if mode == "auto" %}
+		<center>
+		<div class="panel panel-info">
+		<div class="panel-heading"><h3>Mode d'utilisation</h3></div>
+		<div class="panel-body"><p>
+			Le thermostat est en mode automatique.
+				<a class="btn btn-success btn-large" href="/thermostat/auto">Auto</a>
+				<a class="btn btn-danger btn-large" href="/thermostat/manuel">Manuel</a>
+				<a class="btn btn-danger btn-large" href="/thermostat/freeze">Hors-Gel</a>
+		</div>
+		</div>
+	{% elif mode == "freeze" %}
+		<center>
+		<div class="panel panel-info">
+		<div class="panel-heading"><h3>Mode d'utilisation</h3></div>
+		<div class="panel-body"><p>
+			Le thermostat est en mode Hors-Gel.
+				<a class="btn btn-danger btn-large" href="/thermostat/auto">Auto</a>
+				<a class="btn btn-danger btn-large" href="/thermostat/manuel">Manuel</a>
+				<a class="btn btn-success btn-large" href="/thermostat/freeze">Hors-Gel</a>
+		</div>
+		</div>
+	{% else %}
+		<center>
+		<div class="panel panel-danger">
+		<div class="panel-heading"><h3>Mode d'utilisation</h3></div>
+		<div class="panel-body"><p>
+			Le thermostat est en mode manuel.
+				<a class="btn btn-danger btn-large" href="/thermostat/auto">Auto</a>
+				<a class="btn btn-success btn-large" href="/thermostat/manuel">Manuel</a>
+				<a class="btn btn-danger btn-large" href="/thermostat/freeze">Manuel</a>
+		</div>
+		</div>
+	{% endif %}
+			
+	{% if thermo['etat'] == false %}
+		<center>
+		<div class="panel panel-info">
+		<div class="panel-heading"><h3>Thermostat</h3></div>
+		<div class="panel-body"><p>
+			Le thermostat est éteint.
+			{% if mode == 'auto' or mode == "freeze" %}
+				<a class="btn btn-success btn-large disabled" href="/thermostat/manuel/on">On</a>
+				<a class="btn btn-danger btn-large disabled" href="/thermostat/manuel/off">Off</a>
+			{% else %}
+				<a class="btn btn-success btn-large" href="/thermostat/manuel/on">On</a>
+				<a class="btn btn-danger btn-large" href="/thermostat/manuel/off">Off</a>
+			{% endif %}
+		</div>
+		</div>
+		</center>
+	{% else %}
+		<center>
+		<div class="panel panel-danger">
+		<div class="panel-heading"><h3>Thermostat</h3></div>
+		<div class="panel-body"><p>
+			Le thermostat est allumé.
+			{% if mode == 'auto' or mode == "freeze" %}
+				<a class="btn btn-danger btn-large disabled" href="/thermostat/manuel/on">On</a>
+				<a class="btn btn-success btn-large disabled" href="/thermostat/manuel/off">Off</a>
+			{% else %}
+				<a class="btn btn-danger btn-large" href="/thermostat/manuel/on">On</a>
+				<a class="btn btn-success btn-large" href="/thermostat/manuel/off">Off</a>
+			{% endif %}
+		</div>
+		</div>
+		</center>
+	{% endif %}
+	
+	</div> <!-- fin row -->
+	<!-- </div> -->
+</div>
+{% endblock %}	

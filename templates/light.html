@@ -1,0 +1,58 @@
+{% extends "main.html" %}
+
+{% block title %}Maison - Lumieres{% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="alert alert-success" role="alert">
+			<ul class=flashes>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+			</div>
+		{% endif %}
+	{% endwith %}
+
+	
+	<div class="row">
+	<div class="col-md-6">
+	{% for lum in lumieres %}
+	{% if lumieres[lum]['etat'] == false %}
+		<center>
+		<div class="panel panel-info">
+		<div class="panel-heading"><h3>{{ lumieres[lum]['name'].capitalize() }}</h3></div>
+		<div class="panel-body"><p>
+			La lumière est éteinte.
+				<a class="btn btn-success btn-large" href='/{{ lumieres[lum]['name'] }}/on'>On</a>
+				<a class="btn btn-danger btn-large" href='/{{ lumieres[lum]['name'] }}/off'>Off</a></p>
+		</div>
+		</div>
+		</center>
+	{% else %}
+		<center>
+		<div class="panel panel-danger">
+		<div class="panel-heading"><h3>{{ lumieres[lum]['name'].capitalize() }}</h3></div>
+		<div class="panel-body"><p>
+			La lumière est allumée.
+				<a class="btn btn-danger btn-large" href='/{{ lumieres[lum]['name'] }}/on'>On</a>
+				<a class="btn btn-success btn-large" href='/{{ lumieres[lum]['name'] }}/off'>Off</a></p>
+		</div>
+		</div>
+		</center>
+	 {% endif %}
+	
+	{% endfor %}
+	</div> <!-- fin col-md -->
+	
+	
+	</div><!-- fin row -->
+
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+
+{% block title %}Maison - Configuration{% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<div class="alert alert-success" role="alert">
+			<ul class=flashes>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+			</div>
+		{% endif %}
+	{% endwith %}
+
+	<div class="row">
+	<div class="col-md-3">
+
+	<h4>Horaires de fonctionnement chaudiere en mode <b>automatique</b>:</h4>
+	<form action={{ url_for('configuration_post') }} method=POST class=add-entry>
+		<dl>
+			<dt>Heure d'allumage chaudiere matin:
+			<dd><input type=text id="onMatin" name=onMatin value={{ onMatin }}>
+			<dt>Heure d'extinction matin:
+			<dd><input type=text id="offMatin" name=offMatin value={{ offMatin }}>
+			<dt>Heure d'allumage soir:
+			<dd><input type=text id="onSoir" name=onSoir value={{ onSoir }}>
+			<dt>Heure d'extinction soir:
+			<dd><input type=text id="offSoir" name=offSoir value={{ offSoir }}>
+		</dl>
+			<div class="row">
+			<div class="col-md-9">
+			<p align="center"><input type="submit" id="goButton" class="btn btn-primary btn-block" value=OK></p>
+			</div>
+			</div>
+	</form>
+
+	</div>
+	</div>
+</div>
+{% endblock %}
